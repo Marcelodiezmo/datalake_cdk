@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "aws-cdk-lib": "^2.24.1",
+    "cdk-dia": "^0.7.0"
+  }
+}
