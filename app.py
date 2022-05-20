@@ -65,7 +65,7 @@ class DatalakeIntegrationsStack(Stack):
                     year='*'),
             )
 
-            rule.add_target(targets.LambdaFunction(lambdaFn))
+            #rule.add_target(targets.LambdaFunction(lambdaFn))
 
 
         elif env == '986361039434':  # PROD
