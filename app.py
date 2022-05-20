@@ -58,7 +58,7 @@ class DatalakeIntegrationsStack(Stack):
             rule = events.Rule(
                 self, "Rule",
                 schedule=events.Schedule.cron(
-                    minute='30',
+                    minute='00',
                     hour='13',
                     month='*',
                     week_day='MON-FRI',
@@ -107,7 +107,7 @@ class DatalakeIntegrationsStack(Stack):
             rule = events.Rule(
                 self, "Rule",
                 schedule=events.Schedule.cron(
-                    minute='30',
+                    minute='00',
                     hour='13',
                     month='*',
                     week_day='MON-FRI',
