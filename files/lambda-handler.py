@@ -132,6 +132,34 @@ def main(event, context):
                     }
         },
         {
+            "Name": "in_py_compareqasetupcom.py",
+                    "ActionOnFailure": "CONTINUE",
+                    "HadoopJarStep":{
+                        "Jar": "s3://elasticmapreduce/libs/script-runner/script-runner.jar", 
+                        "Args": ["s3://"+os.environ['bucket_name']+"/git/skynetcode/"+os.environ['prefix']+"/pipeline/config/in_run_compareqasetupcom.sh"]
+                    }
+            
+        },
+        {
+            "Name": "in_pys_compareqasetupcom.py",
+                    "ActionOnFailure": "CONTINUE",
+                    "HadoopJarStep":{"Args": [
+                                    "spark-submit",
+                                    "--deploy-mode",
+                                    "cluster",
+                                    "s3://"+os.environ['bucket_name']+"/git/skynetcode/"+os.environ['prefix']+"/pipeline/scripts/in_pys_compareqasetupcom.py"
+                                    ],
+                                    "Jar": "command-runner.jar"}
+        },
+        {
+            "Name": "in_py_compareqasetupcomxlsx.py",
+                    "ActionOnFailure": "CONTINUE",
+                    "HadoopJarStep":{
+                        "Jar": "s3://elasticmapreduce/libs/script-runner/script-runner.jar" ,
+                        "Args": ["s3://"+os.environ['bucket_name']+"/git/skynetcode/"+os.environ['prefix']+"/pipeline/config/in_run_compareqasetupcomxlsx.sh"],
+                    }
+        },
+        {
             'Name': 'vimeoData'+ os.environ['branch'],   
                     'ActionOnFailure':'CONTINUE',
                     'HadoopJarStep': {
