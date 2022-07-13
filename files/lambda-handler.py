@@ -184,6 +184,33 @@ def main(event, context):
                         'Jar': 's3://elasticmapreduce/libs/script-runner/script-runner.jar',
                         'Args': ['s3://'+os.environ['bucket_name']+'/git/skynetcode/'+os.environ['prefix']+'/pipeline/config/in_hubspotdata.sh']
                     }
+           },
+            {
+            'Name': 'readListUsersProgressMicrocredentials'+ os.environ['branch'],   
+                    'ActionOnFailure':'CONTINUE',
+                    'HadoopJarStep': {
+                        'Jar': 's3://elasticmapreduce/libs/script-runner/script-runner.jar',
+                        'Args': ['s3://'+os.environ['bucket_name']+'/git/skynetcode/'+os.environ['prefix']+'/pipeline/config/in_py_readlistusersprogressdrive.sh']
+                    }
+           },
+                   {
+            "Name": "progressubitsMicrocredentials.py",
+                    "ActionOnFailure": "CONTINUE",
+                    "HadoopJarStep":{"Args": [
+                                    "spark-submit",
+                                    "--deploy-mode",
+                                    "cluster",
+                                    "s3://"+os.environ['bucket_name']+"/git/skynetcode/"+os.environ['prefix']+"/pipeline/scripts/in_pys_progressubits.py"
+                                    ],
+                                    "Jar": "command-runner.jar"}
+        },
+            {
+            'Name': 'writeUsersProgressMicrocredentials'+ os.environ['branch'],   
+                    'ActionOnFailure':'CONTINUE',
+                    'HadoopJarStep': {
+                        'Jar': 's3://elasticmapreduce/libs/script-runner/script-runner.jar',
+                        'Args': ['s3://'+os.environ['bucket_name']+'/git/skynetcode/'+os.environ['prefix']+'/pipeline/config/in_py_writeusersprogressdrive.sh']
+                    }
            }
        
     ],
