@@ -38,7 +38,7 @@ def main(event, context):
                 'Name': "Master",
                 'Market': 'ON_DEMAND',
                 'InstanceRole': 'MASTER',
-                'InstanceType': 'r5a.xlarge',
+                'InstanceType': 'r4.xlarge',
                 'InstanceCount': 1,
                 "Configurations":[
                 {
@@ -60,8 +60,8 @@ def main(event, context):
                 'Name': "Slave",
                 'Market': 'ON_DEMAND',
                 'InstanceRole': 'CORE',
-                'InstanceType': 'm5.xlarge',
-                'InstanceCount': 2,
+                'InstanceType': 'd2.xlarge',
+                'InstanceCount': 1,
                 "Configurations":[
                 {
                  "Classification": "spark-defaults",
