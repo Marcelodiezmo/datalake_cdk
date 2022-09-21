@@ -57,6 +57,27 @@ def main(event, context):
             ]
             },
             {
+                'Name': "Task - 3",
+                'Market': 'SPOT',
+                'InstanceRole': 'TASK',
+                'InstanceType': 'r4.xlarge',
+                'InstanceCount': 1,
+                "Configurations":[
+                {
+                 "Classification": "spark-defaults",
+                 "Properties": {
+                   "spark.dynamicAllocation.enabled": "tr",
+                   "spark.executor.extraJavaOptions": "-XX:+UseG1GC -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -XX:InitiatingHeapOccupancyPercent=35 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:OnOutOfMemoryError='kill -9 %p'",
+                   "spark.driver.extraJavaOptions": "-XX:+UseG1GC -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -XX:InitiatingHeapOccupancyPercent=35 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:OnOutOfMemoryError='kill -9 %p'",
+                   "spark.storage.level": "MEMORY_AND_DISK_SER",
+                   "spark.rdd.compress": "true",
+                   "spark.shuffle.compress": "true",
+                   "spark.shuffle.spill.compress": "true",
+                 }
+                }
+            ]
+            },
+                        {
                 'Name': "Slave",
                 'Market': 'ON_DEMAND',
                 'InstanceRole': 'CORE',
@@ -186,6 +207,14 @@ def main(event, context):
                     }
            },
             {
+            'Name': 'hubspotParquetsToCsv'+ os.environ['branch'],   
+                    'ActionOnFailure':'CONTINUE',
+                    'HadoopJarStep': {
+                        'Jar': 's3://elasticmapreduce/libs/script-runner/script-runner.jar',
+                        'Args': ['s3://'+os.environ['bucket_name']+'/git/skynetcode/'+os.environ['prefix']+'/pipeline/config/in_run_hubspotparquetstocsvs3.sh']
+                    }
+           },
+            {
             'Name': 'readListUsersProgressMicrocredentials'+ os.environ['branch'],   
                     'ActionOnFailure':'CONTINUE',
                     'HadoopJarStep': {
@@ -211,7 +240,19 @@ def main(event, context):
                         'Jar': 's3://elasticmapreduce/libs/script-runner/script-runner.jar',
                         'Args': ['s3://'+os.environ['bucket_name']+'/git/skynetcode/'+os.environ['prefix']+'/pipeline/config/in_py_writeusersprogressdrive.sh']
                     }
-           }
+           },
+
+        {
+            'Name':'Appcues branch  '+os.environ['branch'],
+             'ActionOnFailure':'TERMINATE_CLUSTER',
+            'HadoopJarStep': {
+                        'Jar': 'command-runner.jar',
+                        'Args': ['spark-submit',
+     '--deploy-mode',
+     'cluster',
+     's3://'+os.environ['bucket_name']+'/git/skynetcode/'+os.environ['prefix']+'/pipeline/scripts/in_pys_appcues.py']
+                    }
+        }
        
     ],
     VisibleToAllUsers=True,
