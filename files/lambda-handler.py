@@ -61,7 +61,7 @@ def main(event, context):
                 'Market': 'SPOT',
                 'InstanceRole': 'TASK',
                 'InstanceType': 'r4.xlarge',
-                'InstanceCount': 1,
+                'InstanceCount': 2,
                 "Configurations":[
                 {
                  "Classification": "spark-defaults",
